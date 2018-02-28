@@ -40,7 +40,7 @@ process makeReference {
 
 process quantReads {
 
-  publishDir "$output", mode: 'copy'
+  publishDir = [path: params.output, mode: 'copy']
 
   tag "read: ${name}"
 
