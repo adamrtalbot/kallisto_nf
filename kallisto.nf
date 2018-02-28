@@ -4,27 +4,33 @@
 
 params.reference = "*.fa"
 params.kmer = 31
-params.reads = "*{1,2}.fq.gz"
+params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
 
 /// Reference to channel for making reference
 /// Set read pairs as channel, based on pattern match specified in input.
 
-cdna_fasta = Channel.fromPath(params.reference)
-read_pairs = Channel.fromFilePairs(params.reads)
+cdna_fasta = file(params.reference)
+
+Channel
+  .fromFilePairs( params.reads, size: -1 )
+  .ifEmpty { error "Cannot find reads matching: ${params.reads}" }
+  .set { read_pairs }
+
 
 /// Make reference from cDNA sequences
 
 process makeReference {
 
   input:
-  file 'fasta' from cdna_fasta
+  file cdna_fasta
 
   output:
-  file 'kallisto.idx' into kallisto_index
+  file "kallisto.idx" into kallisto_index
 
+  script:
   """
-  kallisto index -i kallisto.idx -k ${params.kmer} fasta
+  kallisto index -i kallisto.idx -k ${params.kmer} ${cdna_fasta}
   """
 
 }
@@ -34,14 +40,14 @@ process makeReference {
 process quantReads {
 
   input:
-  file index from kallisto_index
+  file idx from kallisto_index
   file fastq_pair from read_pairs
 
   output:
-  file mapping into kallist_out_dirs
+  file "sample_out" into kallist_out
 
   """
-  kallisto quant -i index -b ${params.boostraps} -t 1 -o mapping fastq_pair
+  kallisto quant -i ${idx} -b ${params.boostraps} -o sample_out ${fastq_pair}
   """
 
 }
