@@ -6,6 +6,7 @@ params.reference = "*.fa"
 params.kmer = 31
 params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
+params.output = "output"
 
 /// Reference to channel for making reference
 /// Set read pairs as channel, based on pattern match specified in input.
@@ -13,7 +14,7 @@ params.boostraps = 100
 cdna_fasta = file(params.reference)
 
 Channel
-  .fromFilePairs( params.reads, size: -1 )
+  .fromFilePairs( params.reads )
   .ifEmpty { error "Cannot find reads matching: ${params.reads}" }
   .set { read_pairs }
 
@@ -39,15 +40,22 @@ process makeReference {
 
 process quantReads {
 
+  publishDir "$output", mode: 'copy'
+
+  tag "read: ${name}"
+
   input:
   file idx from kallisto_index
-  set val(name), file(fastq_pair) from read_pairs
+  set name, file(fastq_pair) from read_pairs
 
   output:
-  file "${name}_out" into kallist_out
+  file "${name}" into kallist_out
 
   """
-  kallisto quant -i ${idx} -b ${params.boostraps} -o ${name}_out ${fastq_pair}
+  kallisto quant -i ${idx} -b ${params.boostraps} -o ${name} ${fastq_pair}
   """
 
 }
+
+
+/// Collate all kallisto .hd5 files and arrange into gene count table using tximport
