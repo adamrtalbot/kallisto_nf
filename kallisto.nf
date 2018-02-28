@@ -41,13 +41,13 @@ process quantReads {
 
   input:
   file idx from kallisto_index
-  file fastq_pair from read_pairs
+  set val(name), file(fastq_pair) from read_pairs
 
   output:
-  file "sample_out" into kallist_out
+  file "${name}_out" into kallist_out
 
   """
-  kallisto quant -i ${idx} -b ${params.boostraps} -o sample_out ${fastq_pair}
+  kallisto quant -i ${idx} -b ${params.boostraps} -o ${name}_out ${fastq_pair}
   """
 
 }
