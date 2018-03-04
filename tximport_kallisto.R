@@ -34,9 +34,11 @@ load_kallisto <- function(output_folder){
   return(kallist_counts$counts)
 }
 
+
+# Get files and write to csv
 write.csv(
   x = load_kallisto(output_folder = output_folder),
-  file = paste(output_folder, "count_data", sep = "/")
+  file = "count_data.csv"
 )
 
 

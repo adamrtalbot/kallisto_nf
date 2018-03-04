@@ -23,6 +23,8 @@ Channel
 
 process makeReference {
 
+  tag "Making cDNA reference index"
+
   input:
   file cdna_fasta
 
@@ -59,3 +61,21 @@ process quantReads {
 
 
 /// Collate all kallisto .hd5 files and arrange into gene count table using tximport
+
+process  tximport {
+
+  publishDir = [path: params.output, mode: 'copy']
+
+  tag "Collecting count data"
+
+  input:
+  file kallisto_abundance from kallist_out.collect()
+
+  output:
+  file "count_data.csv" into kallisto_gathered
+
+  """
+  tximport_kallisto.R --vanilla "${workflow.projectDir}/${params.output}"
+  """
+
+}
