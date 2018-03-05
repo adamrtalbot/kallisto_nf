@@ -38,7 +38,7 @@ Path to reference, composed of a fasta file of all cDNA (transcript) sequences.
 --reads 'path/to/reads/reads_{1,2}.fastq.gz'
 ```
 
-Specify path to reads. Use the two variables in the curly brackets (e.g. ```{1,2}```) to specify forward and reverse read. 
+Specify path to reads. Use the two variables in the curly brackets (e.g. ```{1,2}```) to specify forward and reverse read. Note it needs to be in quotation marks, this is for Nextflow to parse the forward and reverse reads properly.
 
 ```java
 -profile cluster
