@@ -17,7 +17,8 @@ To run on a server, you need enter this as a command:
 nextflow run adamrtalbot/kallisto_nf \
 --reference path/to/reference/cDNA.fasta \
 --reads 'path/to/reads/reads_{1,2}.fastq.gz'
--profile cluster
+-profile cluster \
+-bg
 ```
 
 To break this down:
@@ -46,4 +47,14 @@ Specify path to reads. Use the two variables in the curly brackets (e.g. ```{1,2
 
 Specifies this is to be run as if on a cluster, using the Sun Grid Engine. This can be specified to ```-profile standard``` to run on your local machine. Change the nextflow.config file to add more profiles that fit your specific use case.
 
+```java
+-bg
+```
+
+Run in background. You may have to hit enter to exit the nextflow pipeline.
+
 Full configuration format is standard Nextflow, as such you may need to add more profiles etc. to work with your particular HPC set up.
+
+## Logs and reports etc
+
+I have no added extra logging or any tools. If you would like more, use the built in tools available here: https://www.nextflow.io/docs/latest/tracing.html
