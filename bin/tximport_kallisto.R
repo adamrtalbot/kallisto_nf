@@ -20,8 +20,7 @@ library(tximport)
 load_kallisto <- function(output_folder){
 
   # Gather list of abundance files
-  kallisto_output_files <- file.path(list.files(path = output_folder,
-                                                pattern = "abundance.h5",
+  kallisto_output_files <- file.path(list.files(pattern = "abundance.h5",
                                                 recursive = TRUE,
                                                 full.names = TRUE))
 
