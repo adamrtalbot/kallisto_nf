@@ -7,6 +7,8 @@ params.kmer = 31
 params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
 params.output = "output"
+params.memory = "4G"
+params.threads = 4
 
 /// Reference to channel for making reference
 /// Set read pairs as channel, based on pattern match specified in input.
@@ -24,6 +26,12 @@ Channel
 process makeReference {
 
   tag "Making cDNA reference index"
+
+  executor {
+    $sge {
+        clusterOptions = "-l h_vmem=$params.memory"
+    }
+  }
 
   input:
   file cdna_fasta
@@ -46,6 +54,13 @@ process quantReads {
 
   tag "read: ${name}"
 
+  executor {
+    $sge {
+        cpus = $params.threads
+        clusterOptions = "-l h_vmem=$params.memory"
+    }
+  }
+
   input:
   file idx from kallisto_index
   set name, file(fastq_pair) from read_pairs
@@ -54,7 +69,7 @@ process quantReads {
   file "${name}" into kallist_out
 
   """
-  kallisto quant -i ${idx} -b ${params.boostraps} -o ${name} ${fastq_pair}
+  kallisto quant -i ${idx} -b ${params.boostraps} -t ${params.threads} -o ${name} ${fastq_pair}
   """
 
 }
