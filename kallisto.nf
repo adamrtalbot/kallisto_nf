@@ -49,7 +49,7 @@ process quantReads {
   tag "read: ${name}"
 
   cpus "${params.threads}"
-  clusterOptions "-l h_vmem ${params.memory}"
+  clusterOptions "-pe smp ${params.threads} -l h_vmem=${params.memory}"
 
   input:
   file idx from kallisto_index
