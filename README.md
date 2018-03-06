@@ -17,7 +17,7 @@ To run on a server, you need enter this as a command:
 nextflow run adamrtalbot/kallisto_nf \
 --reference path/to/reference/cDNA.fasta \
 --reads 'path/to/reads/reads_{1,2}.fastq.gz'
--profile cluster \
+-profile sge \
 -bg
 ```
 
@@ -42,7 +42,7 @@ Path to reference, composed of a fasta file of all cDNA (transcript) sequences.
 Specify path to reads. Use the two variables in the curly brackets (e.g. ```{1,2}```) to specify forward and reverse read. Note it needs to be in quotation marks, this is for Nextflow to parse the forward and reverse reads properly.
 
 ```java
--profile cluster
+-profile sge
 ```
 
 Specifies this is to be run as if on a cluster, using the Sun Grid Engine. This can be specified to ```-profile standard``` to run on your local machine. Change the nextflow.config file to add more profiles that fit your specific use case.
@@ -52,6 +52,23 @@ Specifies this is to be run as if on a cluster, using the Sun Grid Engine. This 
 ```
 
 Run in background. You may have to hit enter to exit the nextflow pipeline.
+
+
+## Optional
+
+There are a few optional parameters you can change, they have default options specified below:
+
+```java
+// Number of cores
+--threads // = 4
+// Number of Kallisto quantification bootstraps
+--boostraps // = 100
+// Output folder
+--output // = output
+// Amount of RAM supplied to each process
+--memory // = 4G (4gb memory)
+// Kmer size for Kallisto index
+--kmers // = 31
 
 Full configuration format is standard Nextflow, as such you may need to add more profiles etc. to work with your particular HPC set up.
 
