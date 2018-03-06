@@ -27,6 +27,8 @@ process makeReference {
 
   tag "Making cDNA reference index"
 
+  module 'kallisto'
+
   input:
   file cdna_fasta
 
@@ -47,7 +49,9 @@ process quantReads {
   publishDir = [path: params.output, mode: 'copy']
 
   tag "read: ${name}"
-  
+
+  module 'kallisto'
+
   clusterOptions "-pe smp ${params.threads} -l h_vmem=${params.memory}"
 
   input:
@@ -71,6 +75,8 @@ process  tximport {
   publishDir = [path: params.output, mode: 'copy']
 
   tag "Collecting count data"
+
+  module 'R'
 
   input:
   file kallisto_abundance from kallist_out.collect()
