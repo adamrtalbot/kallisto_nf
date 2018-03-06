@@ -47,8 +47,7 @@ process quantReads {
   publishDir = [path: params.output, mode: 'copy']
 
   tag "read: ${name}"
-
-  cpus "${params.threads}"
+  
   clusterOptions "-pe smp ${params.threads} -l h_vmem=${params.memory}"
 
   input:
