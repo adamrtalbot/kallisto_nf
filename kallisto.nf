@@ -7,7 +7,7 @@ params.kmer = 31
 params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
 params.output = "output"
-params.memory = "4 GB"
+params.memory = "4G"
 params.threads = 4
 
 /// Reference to channel for making reference
@@ -26,12 +26,6 @@ Channel
 process makeReference {
 
   tag "Making cDNA reference index"
-
-  executor {
-    $sge {
-        clusterOptions = "-l h_vmem=$params.memory"
-    }
-  }
 
   input:
   file cdna_fasta
@@ -53,13 +47,6 @@ process quantReads {
   publishDir = [path: params.output, mode: 'copy']
 
   tag "read: ${name}"
-
-  executor {
-    $sge {
-        cpus = $params.threads
-        clusterOptions = "-l h_vmem=$params.memory"
-    }
-  }
 
   input:
   file idx from kallisto_index
