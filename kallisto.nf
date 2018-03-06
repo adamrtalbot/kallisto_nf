@@ -7,7 +7,7 @@ params.kmer = 31
 params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
 params.output = "output"
-params.memory = "4G"
+params.memory = "4 GB"
 params.threads = 4
 
 /// Reference to channel for making reference
