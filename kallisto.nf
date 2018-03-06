@@ -52,7 +52,7 @@ process quantReads {
 
   module 'kallisto'
 
-  clusterOptions "-pe smp ${params.threads} -l h_vmem=${params.memory}"
+  clusterOptions "-cwd -V -S /bin/bash -pe smp ${params.threads} -l h_vmem=${params.memory}"
 
   input:
   file idx from kallisto_index
