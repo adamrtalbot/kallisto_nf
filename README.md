@@ -53,6 +53,7 @@ Specifies this is to be run as if on a cluster, using the Sun Grid Engine. This 
 
 Run in background. You may have to hit enter to exit the nextflow pipeline.
 
+Add ```-resume``` to resume a previously ran (and presumably failed) analysis.
 
 ## Optional
 
