@@ -29,6 +29,8 @@ process makeReference {
 
   module 'kallisto'
 
+  clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.memory}"
+
   input:
   file cdna_fasta
 
