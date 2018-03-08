@@ -32,7 +32,7 @@ process makeReference {
 
   module 'kallisto'
 
-  time ${params.time}
+  time "${params.time}"
   clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.index_memory}"
 
   input:
@@ -58,7 +58,7 @@ process quantReads {
 
   module 'kallisto'
 
-  time ${params.time}
+  time "${params.time}"
   clusterOptions "-cwd -V -S /bin/bash -pe smp ${params.threads} -l h_vmem=${params.quant_memory}"
 
   input:
@@ -85,7 +85,7 @@ process  tximport {
 
   module 'R'
 
-  time ${params.time}
+  time "${params.time}"
   clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.tximport_memory}"
 
   input:
