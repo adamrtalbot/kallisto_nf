@@ -7,8 +7,11 @@ params.kmer = 31
 params.reads = "*{1,2}.fastq.gz"
 params.boostraps = 100
 params.output = "output"
-params.memory = "4G"
+params.index_memory = "4G"
+params.quant_memory = "4G"
+params.tximport_memory = "4G"
 params.threads = 4
+params.time = "1h"
 
 /// Reference to channel for making reference
 /// Set read pairs as channel, based on pattern match specified in input.
@@ -29,7 +32,7 @@ process makeReference {
 
   module 'kallisto'
 
-  clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.memory}"
+  clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.index_memory}"
 
   input:
   file cdna_fasta
@@ -54,7 +57,7 @@ process quantReads {
 
   module 'kallisto'
 
-  clusterOptions "-cwd -V -S /bin/bash -pe smp ${params.threads} -l h_vmem=${params.memory}"
+  clusterOptions "-cwd -V -S /bin/bash -pe smp ${params.threads} -l h_vmem=${params.quant_memory}"
 
   input:
   file idx from kallisto_index
@@ -79,6 +82,8 @@ process  tximport {
   tag "Collecting count data"
 
   module 'R'
+
+  clusterOptions "-cwd -V -S /bin/bash -l h_vmem=${params.tximport_memory}"
 
   input:
   file kallisto_abundance from kallist_out.collect()

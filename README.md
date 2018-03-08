@@ -1,4 +1,5 @@
-# kallisto_nf
+# Kallisto - tximport Pipeline for RNA-Seq Data
+
 Nextflow pipeline for Kallisto pseudoalignment of RNA-Seq data
 
 
@@ -67,9 +68,12 @@ There are a few optional parameters you can change, they have default options sp
 // Output folder
 --output // = output
 // Amount of RAM supplied to each process
---memory // = 4G (4gb memory)
+--quant_memory // = 4G (4gb memory)
+--index_memory // = 4G (4gb memory)
+--tximport_memory // = 4G (4gb memory)
 // Kmer size for Kallisto index
 --kmers // = 31
+```
 
 Full configuration format is standard Nextflow, as such you may need to add more profiles etc. to work with your particular HPC set up.
 
